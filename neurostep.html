@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neurostep — Smart Bioactive Diabetic Socks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --sage:        #5a7a5c;
+      --sage-light:  #8faa82;
+      --sage-pale:   #d4e4cc;
+      --earth:       #8b6b4a;
+      --earth-light: #c4a882;
+      --cream:       #f5f0e8;
+      --cream-dark:  #ede5d5;
+      --ink:         #1a1f1a;
+      --ink-soft:    #3a4040;
+      --white:       #fdfcfa;
+      --gold:        #c4933f;
+      --gold-light:  #e8c882;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(245,240,232,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(90,122,92,0.12);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600; letter-spacing: .04em;
+      color: var(--sage);
+    }
+    .nav-logo span { color: var(--earth); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .82rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink-soft); text-decoration: none;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--sage); }
+
+    /* ───── HERO ───── */
+    #hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 10rem 5vw 6rem 8vw;
+      position: relative; z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--sage-pale); color: var(--sage);
+      font-family: 'Space Mono', monospace; font-size: .68rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .4rem 1rem; border-radius: 2rem; width: fit-content;
+      margin-bottom: 2rem;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--sage); animation: pulse 2s ease infinite;
+    }
+
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 1.6rem;
+      animation: fadeUp .8s .15s ease both;
+    }
+    .hero-headline em {
+      font-style: italic; color: var(--sage);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem; font-weight: 300; line-height: 1.7;
+      color: var(--ink-soft); max-width: 460px;
+      margin-bottom: 2.8rem;
+      animation: fadeUp .8s .3s ease both;
+    }
+    .hero-sub strong { color: var(--sage); font-weight: 500; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .75rem;
+      background: var(--sage); color: var(--white);
+      font-size: .88rem; font-weight: 500; letter-spacing: .06em;
+      padding: 1rem 2.2rem; border-radius: .4rem;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background .25s, transform .2s, box-shadow .25s;
+      width: fit-content;
+      animation: fadeUp .8s .45s ease both;
+    }
+    .btn-primary:hover {
+      background: var(--ink); transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(26,31,26,.18);
+    }
+    .btn-primary svg { width: 18px; transition: transform .25s; }
+    .btn-primary:hover svg { transform: translateX(4px); }
+
+    .hero-stats {
+      display: flex; gap: 3rem; margin-top: 3.5rem;
+      animation: fadeUp .8s .6s ease both;
+    }
+    .stat-item { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 600; color: var(--sage);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: .75rem; color: var(--ink-soft); letter-spacing: .04em; margin-top: .25rem;
+    }
+
+    .hero-right {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--sage-pale) 0%, var(--cream-dark) 100%);
+      overflow: hidden;
+    }
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(90,122,92,.18) 0%, transparent 70%);
+    }
+
+    .hero-visual {
+      position: relative; z-index: 1;
+      width: 75%; aspect-ratio: 1;
+      animation: floatUp 6s ease-in-out infinite;
+    }
+
+    .sock-illustration {
+      width: 100%; height: 100%;
+    }
+
+    /* decorative circles */
+    .deco-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(90,122,92,.22);
+    }
+    .deco-ring:nth-child(1) { width: 110%; height: 110%; top: -5%; left: -5%; }
+    .deco-ring:nth-child(2) { width: 130%; height: 130%; top: -15%; left: -15%; opacity: .5; }
+
+    .hero-label {
+      position: absolute; background: var(--white);
+      border-radius: .5rem; padding: .7rem 1.1rem;
+      box-shadow: 0 8px 24px rgba(26,31,26,.1);
+      font-size: .78rem; font-weight: 500; color: var(--ink);
+      display: flex; align-items: center; gap: .5rem;
+      white-space: nowrap;
+    }
+    .hero-label .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .label-1 { top: 20%; right: 8%; animation: fadeUp 1s .9s ease both; }
+    .label-2 { bottom: 28%; left: 8%; animation: fadeUp 1s 1.1s ease both; }
+    .label-3 { bottom: 15%; right: 14%; animation: fadeUp 1s 1.3s ease both; }
+
+    /* ───── SECTION BASE ───── */
+    section { padding: 7rem 8vw; }
+    .section-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: .8rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300;
+      line-height: 1.2; color: var(--ink); margin-bottom: 1.2rem;
+    }
+    .section-title em { font-style: italic; color: var(--sage); }
+    .section-lead {
+      font-size: 1rem; font-weight: 300; line-height: 1.8;
+      color: var(--ink-soft); max-width: 640px;
+    }
+    .divider {
+      width: 48px; height: 2px; background: var(--sage-light);
+      margin: 1.4rem 0;
+    }
+
+    /* ───── ABOUT ───── */
+    #about {
+      background: var(--white);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+      align-items: center;
+    }
+    .about-right {
+      display: flex; flex-direction: column; gap: 1.6rem;
+    }
+    .problem-card {
+      background: #fff8f0;
+      border-left: 3px solid var(--earth-light);
+      border-radius: 0 .5rem .5rem 0;
+      padding: 1.4rem 1.6rem;
+    }
+    .problem-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 600; color: var(--earth);
+      margin-bottom: .4rem;
+    }
+    .problem-card p {
+      font-size: .9rem; line-height: 1.7; color: var(--ink-soft);
+    }
+    .solution-card {
+      background: var(--sage-pale);
+      border-radius: .7rem; padding: 1.6rem;
+      position: relative; overflow: hidden;
+    }
+    .solution-card::after {
+      content: '✦'; position: absolute; right: 1.2rem; bottom: .8rem;
+      font-size: 3rem; color: rgba(90,122,92,.12);
+    }
+    .solution-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 600; color: var(--sage);
+      margin-bottom: .5rem;
+    }
+    .solution-card p { font-size: .9rem; line-height: 1.7; color: var(--ink-soft); }
+
+    /* ───── INGREDIENTS ───── */
+    #ingredients {
+      background: var(--ink);
+      color: var(--cream);
+    }
+    #ingredients .section-title { color: var(--cream); }
+    #ingredients .section-title em { color: var(--sage-light); }
+    #ingredients .section-lead { color: rgba(245,240,232,.65); }
+    #ingredients .divider { background: var(--sage); }
+
+    .ingredients-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 3.5rem;
+    }
+    .ing-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 1rem; padding: 2.4rem 2rem;
+      position: relative; overflow: hidden;
+      transition: background .3s, border-color .3s, transform .3s;
+      cursor: default;
+    }
+    .ing-card:hover {
+      background: rgba(255,255,255,.07);
+      border-color: rgba(143,170,130,.35);
+      transform: translateY(-4px);
+    }
+    .ing-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .ing-card.card-straw::before  { background: linear-gradient(90deg, var(--earth), var(--gold)); }
+    .ing-card.card-pegagan::before { background: linear-gradient(90deg, var(--sage), var(--sage-light)); }
+    .ing-card.card-binahong::before { background: linear-gradient(90deg, #7a6a9e, #b0a0d4); }
+
+    .ing-icon {
+      width: 52px; height: 52px; border-radius: .7rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 1.5rem;
+    }
+    .ing-card.card-straw   .ing-icon { background: rgba(196,163,130,.15); }
+    .ing-card.card-pegagan  .ing-icon { background: rgba(143,170,130,.15); }
+    .ing-card.card-binahong .ing-icon { background: rgba(176,160,212,.15); }
+
+    .ing-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600;
+      color: var(--cream); margin-bottom: .35rem;
+    }
+    .ing-card .ing-latin {
+      font-style: italic; font-size: .75rem; color: rgba(245,240,232,.4);
+      margin-bottom: 1rem; letter-spacing: .04em;
+    }
+    .ing-card p {
+      font-size: .88rem; line-height: 1.75; color: rgba(245,240,232,.65);
+    }
+    .ing-tag {
+      display: inline-block; margin-top: 1.2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+      padding: .3rem .8rem; border-radius: 2rem;
+    }
+    .card-straw   .ing-tag { background: rgba(196,147,63,.18); color: var(--gold-light); }
+    .card-pegagan  .ing-tag { background: rgba(90,122,92,.2); color: var(--sage-light); }
+    .card-binahong .ing-tag { background: rgba(122,106,158,.2); color: #c0b0e0; }
+
+    /* ───── BENEFITS ───── */
+    #benefits {
+      background: var(--cream-dark);
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem;
+      align-items: start;
+    }
+    .benefits-grid {
+      display: grid; gap: 1.2rem; margin-top: 1rem;
+    }
+    .benefit-item {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 1.2rem; align-items: start;
+      background: var(--white); border-radius: .8rem;
+      padding: 1.4rem 1.6rem;
+      box-shadow: 0 2px 12px rgba(26,31,26,.05);
+      transition: box-shadow .25s, transform .25s;
+    }
+    .benefit-item:hover {
+      box-shadow: 0 8px 28px rgba(26,31,26,.1);
+      transform: translateX(4px);
+    }
+    .benefit-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 600; color: var(--sage-pale);
+      line-height: 1; align-self: center; text-align: center;
+    }
+    .benefit-text h4 {
+      font-size: .92rem; font-weight: 600; color: var(--ink);
+      margin-bottom: .3rem;
+    }
+    .benefit-text p {
+      font-size: .84rem; line-height: 1.65; color: var(--ink-soft);
+    }
+
+    .benefits-visual {
+      position: relative;
+      background: linear-gradient(145deg, var(--sage) 0%, #3a5a3c 100%);
+      border-radius: 1.2rem; overflow: hidden;
+      padding: 3rem 2.5rem;
+      color: var(--white); min-height: 420px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .benefits-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='80' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='2'/%3E%3Ccircle cx='100' cy='100' r='55' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='2'/%3E%3Ccircle cx='100' cy='100' r='30' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='2'/%3E%3C/svg%3E") center/cover;
+    }
+    .benefits-visual-label {
+      position: relative; z-index: 1;
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--sage-pale); margin-bottom: .6rem;
+    }
+    .benefits-visual-title {
+      position: relative; z-index: 1;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300; color: var(--white);
+      line-height: 1.3;
+    }
+    .benefits-visual-title em { font-style: italic; color: var(--gold-light); }
+
+    /* ───── HOW IT WORKS ───── */
+    #how-it-works {
+      background: var(--white);
+      text-align: center;
+    }
+    #how-it-works .section-lead { margin: 0 auto; }
+    #how-it-works .divider { margin: 1.4rem auto; }
+
+    .steps-container {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; margin-top: 4rem; position: relative;
+    }
+    .steps-container::before {
+      content: '';
+      position: absolute; top: 60px; left: calc(16.66% + 1rem); right: calc(16.66% + 1rem);
+      height: 1px; background: linear-gradient(90deg, var(--sage-pale), var(--sage), var(--sage-pale));
+      z-index: 0;
+    }
+
+    .step-item {
+      padding: 0 2rem 2rem;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .step-circle {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: var(--cream); border: 2px solid var(--sage-pale);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin-bottom: 2rem; position: relative;
+      transition: border-color .3s, background .3s;
+    }
+    .step-item:hover .step-circle {
+      border-color: var(--sage); background: var(--sage-pale);
+    }
+    .step-circle .step-icon { font-size: 2rem; }
+    .step-circle .step-n {
+      position: absolute; top: -8px; right: -8px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--sage); color: var(--white);
+      font-family: 'Space Mono', monospace; font-size: .68rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-item h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 600; color: var(--ink);
+      margin-bottom: .6rem;
+    }
+    .step-item p {
+      font-size: .88rem; line-height: 1.75; color: var(--ink-soft);
+    }
+    .step-detail {
+      margin-top: 1rem; padding: .8rem 1.2rem;
+      background: var(--sage-pale); border-radius: .5rem;
+      font-size: .78rem; color: var(--sage); font-weight: 500;
+      font-family: 'Space Mono', monospace; letter-spacing: .04em;
+    }
+
+    /* ───── CARE ───── */
+    #care {
+      background: var(--cream);
+    }
+    .care-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      margin-top: 3rem; align-items: start;
+    }
+    .care-list {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .care-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--white); border-radius: .7rem;
+      box-shadow: 0 1px 8px rgba(26,31,26,.04);
+    }
+    .care-icon {
+      width: 38px; height: 38px; border-radius: .5rem;
+      background: var(--sage-pale); color: var(--sage);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .care-item p {
+      font-size: .88rem; line-height: 1.65; color: var(--ink-soft);
+      padding-top: .1rem;
+    }
+    .care-item strong { color: var(--ink); font-weight: 600; }
+
+    .care-aside {
+      background: linear-gradient(145deg, #f5f0e8 0%, #e8dcc8 100%);
+      border-radius: 1rem; padding: 2.5rem 2rem;
+      border: 1px solid rgba(196,147,63,.2);
+    }
+    .care-aside h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 600; color: var(--earth);
+      margin-bottom: 1rem;
+    }
+    .care-aside p { font-size: .9rem; line-height: 1.75; color: var(--ink-soft); }
+    .care-aside .care-tech {
+      margin-top: 1.5rem; padding: 1rem 1.2rem;
+      background: rgba(196,147,63,.1);
+      border-radius: .5rem; border-left: 3px solid var(--gold);
+    }
+    .care-tech h5 {
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .4rem;
+    }
+    .care-tech p { font-size: .84rem; line-height: 1.65; color: var(--earth); }
+
+    .care-warning {
+      margin-top: 1.5rem; padding: 1rem 1.2rem;
+      background: rgba(180,60,60,.06); border-radius: .5rem;
+      border-left: 3px solid #c87878;
+      font-size: .84rem; line-height: 1.65; color: #8a4040;
+    }
+
+    /* ───── FOOTER ───── */
+    footer {
+      background: var(--ink);
+      color: rgba(245,240,232,.6);
+      padding: 4rem 8vw 2.5rem;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 4rem; padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      margin-bottom: 2rem;
+    }
+    .footer-brand .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600; color: var(--sage-light);
+      margin-bottom: 1rem; display: block;
+    }
+    .footer-brand p { font-size: .85rem; line-height: 1.75; }
+    .footer-brand .unnes-tag {
+      margin-top: 1rem; display: inline-block;
+      font-family: 'Space Mono', monospace; font-size: .68rem;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--gold-light); background: rgba(196,147,63,.12);
+      padding: .3rem .8rem; border-radius: 2rem;
+    }
+    .footer-col h5 {
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(245,240,232,.3); margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+    .footer-col ul li a {
+      color: rgba(245,240,232,.55); font-size: .88rem;
+      text-decoration: none; transition: color .2s;
+    }
+    .footer-col ul li a:hover { color: var(--sage-light); }
+
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'Space Mono', monospace; font-size: .7rem;
+      letter-spacing: .06em; color: rgba(245,240,232,.25);
+    }
+    .footer-acro {
+      font-size: .72rem; color: rgba(245,240,232,.3);
+      line-height: 1.6; max-width: 320px;
+    }
+
+    /* ───── ANIMATIONS ───── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-14px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .5; transform: scale(.7); }
+    }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+
+    /* ───── RESPONSIVE ───── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 9rem 6vw 5rem; }
+      #about,
+      #benefits,
+      .care-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .ingredients-grid,
+      .steps-container { grid-template-columns: 1fr; }
+      .steps-container::before { display: none; }
+      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+      nav { padding: 1rem 5vw; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Neuro<span>step</span></span>
+  <ul class="nav-links">
+    <li><a href="#about">Tentang</a></li>
+    <li><a href="#ingredients">Bahan</a></li>
+    <li><a href="#benefits">Manfaat</a></li>
+    <li><a href="#how-it-works">Cara Kerja</a></li>
+    <li><a href="#care">Perawatan</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Smart Bioactive Diabetic Socks</div>
+    <h1 class="hero-headline">
+      Setiap Langkah,<br>
+      <em>Terlindungi</em> Secara<br>
+      Alami & Cerdas.
+    </h1>
+    <p class="hero-sub">
+      Neurostep menghadirkan terapi pencegahan ulkus diabetikum berkelanjutan lewat kaus kaki pintar berbahan alam Indonesia — <strong>tanpa jarum, tanpa bahan kimia sintetis, tanpa kerumitan.</strong>
+    </p>
+    <a href="#about" class="btn-primary">
+      Kenali Neurostep Lebih Dalam
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Ekstrak Fitokompleks</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Bahan Kimia Sintetis</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Respons Adaptif Kulit</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div style="position:relative; display:flex; align-items:center; justify-content:center; width:100%; height:100%;">
+      <div class="deco-ring"></div>
+      <div class="deco-ring"></div>
+      <div class="hero-visual">
+        <!-- Sock SVG illustration -->
+        <svg class="sock-illustration" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="sockGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#8faa82"/>
+              <stop offset="100%" stop-color="#5a7a5c"/>
+            </radialGradient>
+            <radialGradient id="gelGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(143,170,130,0.4)"/>
+              <stop offset="100%" stop-color="rgba(90,122,92,0.1)"/>
+            </radialGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Background circle -->
+          <circle cx="200" cy="200" r="160" fill="rgba(212,228,204,0.3)"/>
+
+          <!-- Sock body -->
+          <path d="M140 100 L140 240 Q140 300 195 310 L230 315 Q290 315 295 260 L295 235 Q295 210 270 205 L265 205 L265 100 Z"
+                fill="url(#sockGrad)" rx="20"/>
+
+          <!-- Sock cuff pattern -->
+          <path d="M140 100 L265 100 L265 135 L140 135 Z" fill="rgba(255,255,255,0.15)"/>
+          <line x1="155" y1="107" x2="155" y2="128" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+          <line x1="170" y1="107" x2="170" y2="128" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+          <line x1="185" y1="107" x2="185" y2="128" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+          <line x1="200" y1="107" x2="200" y2="128" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+          <line x1="215" y1="107" x2="215" y2="128" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+          <line x1="230" y1="107" x2="230" y2="128" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+          <line x1="245" y1="107" x2="245" y2="128" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+
+          <!-- Hydrogel layer -->
+          <ellipse cx="202" cy="225" rx="55" ry="55" fill="url(#gelGrad)" filter="url(#glow)" opacity="0.8"/>
+          <ellipse cx="202" cy="225" rx="38" ry="38" fill="rgba(143,170,130,0.2)" filter="url(#glow)"/>
+
+          <!-- Leaf motif pegagan -->
+          <path d="M195 215 Q192 205 185 208 Q188 218 195 215Z" fill="rgba(255,255,255,0.55)"/>
+          <path d="M200 210 Q200 200 193 200 Q193 210 200 210Z" fill="rgba(255,255,255,0.45)"/>
+          <path d="M205 215 Q208 205 215 208 Q212 218 205 215Z" fill="rgba(255,255,255,0.55)"/>
+          <line x1="200" y1="215" x2="200" y2="238" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+
+          <!-- Binahong leaf -->
+          <path d="M195 235 Q188 230 185 235 Q188 242 195 238Z" fill="rgba(255,255,255,0.4)"/>
+          <path d="M205 235 Q212 230 215 235 Q212 242 205 238Z" fill="rgba(255,255,255,0.4)"/>
+
+          <!-- Particles -->
+          <circle cx="175" cy="195" r="3" fill="rgba(255,255,255,0.5)">
+            <animate attributeName="cy" values="195;185;195" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="225" cy="190" r="2.5" fill="rgba(255,255,255,0.5)">
+            <animate attributeName="cy" values="190;180;190" dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="202" cy="180" r="2" fill="rgba(255,255,255,0.6)">
+            <animate attributeName="cy" values="180;170;180" dur="2.8s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="2.8s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Label UNNES -->
+          <rect x="158" y="158" width="90" height="22" rx="11" fill="rgba(255,255,255,0.2)"/>
+          <text x="203" y="173" text-anchor="middle" font-family="Space Mono, monospace" font-size="8" fill="rgba(255,255,255,0.8)" letter-spacing="1.5">NEUROSTEP</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="hero-label label-1">
+      <div class="dot" style="background:#8faa82;"></div>
+      Hidrogel CMC Aktif
+    </div>
+    <div class="hero-label label-2">
+      <div class="dot" style="background:#c0b0e0;"></div>
+      Ekstrak Binahong
+    </div>
+    <div class="hero-label label-3">
+      <div class="dot" style="background:#c4933f;"></div>
+      Ekstrak Pegagan
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <p class="section-tag reveal">Masalah & Solusi</p>
+    <h2 class="section-title reveal reveal-d1">
+      Ketika Kaki Tak Lagi<br><em>Bisa Bicara</em>
+    </h2>
+    <div class="divider reveal reveal-d2"></div>
+    <p class="section-lead reveal reveal-d2">
+      Neuropati perifer adalah sunyi yang berbahaya. Saraf yang rusak akibat diabetes membuat penderitanya tak merasakan luka, tekanan, bahkan infeksi pada kaki — hingga terlambat ditangani.
+    </p>
+  </div>
+
+  <div class="about-right">
+    <div class="problem-card reveal">
+      <h4>⚠ Realitas Ulkus Diabetikum</h4>
+      <p>Lebih dari 25% penderita diabetes berisiko mengalami ulkus kaki sepanjang hidupnya. Luka kecil yang tak terasa bisa berkembang menjadi infeksi serius — bahkan berakhir pada amputasi. Penanganan dini adalah kunci, namun selama ini tidak ada solusi yang benar-benar adaptif dan mudah digunakan sehari-hari.</p>
+    </div>
+    <div class="solution-card reveal reveal-d1">
+      <h4>💚 Neurostep: Terapi yang Melekat</h4>
+      <p>Diinspirasi kearifan herbal Nusantara, dikembangkan oleh tim peneliti Universitas Negeri Semarang, Neurostep hadir sebagai kaus kaki pintar non-invasif yang bekerja diam-diam namun efektif — merespons mikroklimat kulit secara otomatis, 24 jam penuh, tanpa perlu dioperasikan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INGREDIENTS -->
+<section id="ingredients">
+  <div style="max-width:620px;">
+    <p class="section-tag">Bahan & Kandungan</p>
+    <h2 class="section-title reveal">
+      Tiga Pilar <em>Keajaiban</em><br>dari Alam Indonesia
+    </h2>
+    <div class="divider reveal reveal-d1"></div>
+    <p class="section-lead reveal reveal-d2">
+      Setiap komponen dipilih dan diproses secara ilmiah untuk memastikan efektivitas, keamanan, dan keberlanjutan lingkungan.
+    </p>
+  </div>
+
+  <div class="ingredients-grid">
+    <div class="ing-card card-straw reveal">
+      <div class="ing-icon">🌾</div>
+      <h3>Hidrogel CMC</h3>
+      <p class="ing-latin">Carboxymethyl Cellulose — diisolasi dari limbah jerami</p>
+      <p>Matriks pengiriman obat yang cerdas, diformulasi dari limbah pertanian jerami padi yang melimpah. Hidrogel ini bersifat <em>hypoallergenic</em>, biodegradable, dan merespons perubahan kelembapan kulit secara presisi — mengembang saat kulit membutuhkan terapi, dan menyusut saat kondisi membaik.</p>
+      <span class="ing-tag">Ramah Lingkungan</span>
+    </div>
+    <div class="ing-card card-pegagan reveal reveal-d1">
+      <div class="ing-icon">🌿</div>
+      <h3>Pegagan</h3>
+      <p class="ing-latin">Centella asiatica</p>
+      <p>Tanaman herbal legendaris Asia yang telah digunakan selama ribuan tahun. Senyawa aktifnya — asiaticoside, madecassoside — terbukti secara ilmiah mempercepat regenerasi sel kulit, menstimulasi sintesis kolagen, dan mendorong pemulihan jaringan yang rusak akibat ulkus.</p>
+      <span class="ing-tag">Regenerasi Sel</span>
+    </div>
+    <div class="ing-card card-binahong reveal reveal-d2">
+      <div class="ing-icon">🍃</div>
+      <h3>Binahong</h3>
+      <p class="ing-latin">Anredera cordifolia</p>
+      <p>Tanaman khas Nusantara dengan kandungan flavonoid, saponin, dan alkaloid yang potent. Bekerja sebagai agen anti-inflamasi alami yang meredam respons peradangan berlebih pada luka, sekaligus memberikan efek antibakteri untuk mencegah infeksi sekunder.</p>
+      <span class="ing-tag">Anti-Inflamasi</span>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits">
+  <div>
+    <p class="section-tag reveal">Manfaat Nyata</p>
+    <h2 class="section-title reveal reveal-d1">Mengapa Pilih<br><em>Neurostep</em>?</h2>
+    <div class="divider reveal reveal-d2"></div>
+    <p class="section-lead reveal reveal-d2">Dipakai seperti kaus kaki biasa, bekerja layaknya sistem terapi canggih.</p>
+
+    <div class="benefits-grid" style="margin-top: 2.5rem;">
+      <div class="benefit-item reveal">
+        <span class="benefit-num">01</span>
+        <div class="benefit-text">
+          <h4>Proteksi Ulkus Sejak Dini</h4>
+          <p>Sistem respons adaptif mendeteksi perubahan mikroklimat kulit — mulai dari kulit kering hingga mikro-cedera — dan langsung merespons sebelum luka berkembang menjadi serius.</p>
+        </div>
+      </div>
+      <div class="benefit-item reveal reveal-d1">
+        <span class="benefit-num">02</span>
+        <div class="benefit-text">
+          <h4>Penggunaan Tanpa Kerumitan</h4>
+          <p>Tidak memerlukan pengoperasian, pengaturan dosis, atau keahlian medis. Cukup kenakan seperti kaus kaki biasa — sistem bekerja sendiri secara otomatis sepanjang hari.</p>
+        </div>
+      </div>
+      <div class="benefit-item reveal reveal-d2">
+        <span class="benefit-num">03</span>
+        <div class="benefit-text">
+          <h4>Bebas Efek Samping Kimia Sintetis</h4>
+          <p>Seluruh bahan aktif bersumber dari alam, diformulasi dalam matriks hypoallergenic yang aman untuk kulit sensitif penderita diabetes — termasuk yang memiliki riwayat alergi.</p>
+        </div>
+      </div>
+      <div class="benefit-item reveal reveal-d3">
+        <span class="benefit-num">04</span>
+        <div class="benefit-text">
+          <h4>Sistem Kontrol Dosis Otomatis</h4>
+          <p>Mekanisme swelling–deswelling hidrogel memastikan ekstrak hanya dilepaskan saat dibutuhkan, menghentikan pelepasan ketika kulit membaik — mencegah overdosis dan pemborosan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="benefits-visual reveal reveal-d2">
+    <div class="benefits-visual-label">Inovasi UNNES untuk Indonesia</div>
+    <h3 class="benefits-visual-title">
+      Teknologi yang <em>merawat</em><br>bukan sekadar<br>menutupi.
+    </h3>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <p class="section-tag reveal">Cara Kerja Sistem</p>
+  <h2 class="section-title reveal reveal-d1">Tiga Langkah <em>Ajaib</em><br>yang Bekerja Diam-diam</h2>
+  <div class="divider reveal"></div>
+  <p class="section-lead reveal reveal-d2">Sistem "autonomic drug delivery" Neurostep dirancang agar tubuh dan terapi dapat berdialog secara mandiri — tanpa intervensi manusia.</p>
+
+  <div class="steps-container">
+    <div class="step-item reveal">
+      <div class="step-circle">
+        <span class="step-icon">🔍</span>
+        <span class="step-n">1</span>
+      </div>
+      <h3>Deteksi Mikro-Cedera</h3>
+      <p>Ketika kulit kaki mulai mengering atau terjadi mikro-cedera, cairan antar sel meningkat. Hidrogel CMC secara otomatis <strong>mendeteksi perubahan ini</strong> dan mulai menyerap cairan (swelling) sebagai sinyal "siaga terapi".</p>
+      <div class="step-detail">Trigger: ↑ Cairan Antar Sel</div>
+    </div>
+
+    <div class="step-item reveal reveal-d1">
+      <div class="step-circle">
+        <span class="step-icon">💊</span>
+        <span class="step-n">2</span>
+      </div>
+      <h3>Pelepasan Terapi Otomatis</h3>
+      <p>Hidrogel yang mengembang melepaskan ekstrak Pegagan & Binahong secara terkontrol dan bertahap langsung ke area yang membutuhkan — mempercepat regenerasi sel dan meredakan peradangan secara bersamaan.</p>
+      <div class="step-detail">Respons: Pelepasan Fitokompleks</div>
+    </div>
+
+    <div class="step-item reveal reveal-d2">
+      <div class="step-circle">
+        <span class="step-icon">✅</span>
+        <span class="step-n">3</span>
+      </div>
+      <h3>Kulit Pulih, Sistem Berhenti</h3>
+      <p>Seiring kulit membaik, keseimbangan cairan pulih, dan hidrogel kembali menyusut (deswelling). Pelepasan senyawa aktif berhenti secara otomatis, mencegah dosis berlebih dan memastikan efisiensi optimal.</p>
+      <div class="step-detail">Hasil: Homeostasis Terpulihkan</div>
+    </div>
+  </div>
+</section>
+
+<!-- CARE -->
+<section id="care">
+  <p class="section-tag reveal">Panduan Perawatan</p>
+  <h2 class="section-title reveal reveal-d1">Rawat Neurostep,<br><em>Jaga Kualitas</em> Terapi</h2>
+  <div class="divider reveal"></div>
+  <p class="section-lead reveal reveal-d2">Perawatan yang tepat memastikan kandungan bioaktif tetap aktif dan kaus kaki tetap berfungsi optimal dalam jangka panjang.</p>
+
+  <div class="care-grid">
+    <div class="care-list">
+      <div class="care-item reveal">
+        <div class="care-icon">🌡️</div>
+        <p><strong>Suhu Aman:</strong> Cuci tangan atau dengan mesin cuci mode <em>gentle/delicate</em> pada suhu maksimum <strong>40°C</strong>. Suhu lebih tinggi dapat merusak struktur hidrogel dan mengurangi efektivitas bahan aktif.</p>
+      </div>
+      <div class="care-item reveal reveal-d1">
+        <div class="care-icon">👜</div>
+        <p><strong>Gunakan Kantong Cuci:</strong> Masukkan ke dalam <em>mesh laundry bag</em> (kantong cuci jaring) untuk melindungi struktur serat kaus kaki dari gesekan dan tarikan berlebih selama proses pencucian.</p>
+      </div>
+      <div class="care-item reveal reveal-d2">
+        <div class="care-icon">🧴</div>
+        <p><strong>Deterjen Lembut:</strong> Gunakan deterjen mild yang bebas pemutih (<em>bleach-free</em>) dan bebas pelembut pakaian (<em>fabric softener-free</em>). Bahan kimia keras dapat mendegradasi matriks hidrogel CMC.</p>
+      </div>
+      <div class="care-item reveal reveal-d3">
+        <div class="care-icon">💨</div>
+        <p><strong>Pengeringan Alami:</strong> Keringkan dengan cara <strong>diangin-anginkan</strong> di tempat teduh. Hindari paparan sinar matahari langsung dan <strong>dilarang menggunakan mesin pengering</strong> — panas berlebih merusak integritas hidrogel secara permanen.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="care-aside reveal">
+        <h4>Didukung Metode Pad-Dry-Cure</h4>
+        <p>Keawetan dan keefektifan Neurostep didukung oleh proses manufaktur dengan metode <strong>Pad-Dry-Cure</strong> yang digunakan selama produksi. Metode ini memastikan distribusi bahan aktif yang merata, ikatan hidrogel yang kuat pada serat kaus kaki, serta stabilitas senyawa fitokompleks dalam jangka panjang — bahkan setelah pencucian berulang.</p>
+        <div class="care-tech">
+          <h5>⚙ Pad-Dry-Cure Method</h5>
+          <p>Proses pelapisan tekstil tiga tahap: padding (pencelupan seragam), drying (pengeringan presisi), dan curing (fiksasi termal) yang menjamin kualitas dan konsistensi produk dari satu batch ke batch berikutnya.</p>
+        </div>
+        <div class="care-warning">
+          🚫 <strong>Dilarang:</strong> Jangan merendam terlalu lama, memeras dengan kekuatan penuh, menggunakan pemutih, atau menempatkan di bawah sinar matahari langsung. Tindakan ini dapat merusak matriks hidrogel secara irreversibel.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo">Neurostep</span>
+      <p>Natural Enhanced Ulcer Risk Optimization through Smart Therapeutic Enhancement and Protection. Inovasi kaus kaki bioaktif pintar untuk pencegahan ulkus diabetikum — lahir dari riset mendalam, terinspirasi kearifan herbal Nusantara.</p>
+      <span class="unnes-tag">Universitas Negeri Semarang</span>
+    </div>
+
+    <div class="footer-col">
+      <h5>Navigasi</h5>
+      <ul>
+        <li><a href="#about">Tentang Neurostep</a></li>
+        <li><a href="#ingredients">Bahan & Kandungan</a></li>
+        <li><a href="#benefits">Keunggulan Produk</a></li>
+        <li><a href="#how-it-works">Cara Kerja</a></li>
+        <li><a href="#care">Panduan Perawatan</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Tentang Inovasi</h5>
+      <ul>
+        <li><a href="#">Riset & Pengembangan</a></li>
+        <li><a href="#">Tim Peneliti</a></li>
+        <li><a href="#">Publikasi Ilmiah</a></li>
+        <li><a href="#">Kontak Kami</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2025 Tim Neurostep UNNES — Universitas Negeri Semarang. Hak Cipta Dilindungi.</span>
+    <div class="footer-acro">
+      <strong style="color:rgba(245,240,232,0.4);">NEUROSTEP</strong><br>
+      Natural Enhanced Ulcer Risk Optimization through Smart Therapeutic Enhancement and Protection
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Smooth nav active
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + cur
+        ? 'var(--sage)' : '';
+    });
+  });
+</script>
+</body>
+</html>
